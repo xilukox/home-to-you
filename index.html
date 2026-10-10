@@ -321,7 +321,7 @@ function getDisplayDate(d=new Date()){
 }
 const dateKey=getDateKey();
 const STORE='homeToYou:'+dateKey; let state; try{state=JSON.parse(localStorage.getItem(STORE)||'{}')}catch(e){state={}} state.period=state.period||'morning'; state.mode=state.mode||((new Date().getDay()===0||new Date().getDay()===6)?'holiday':'work'); state.done=state.done||{}; state.house=state.house||{}; state.sound=state.sound||false; state.volume=state.volume??0.75; state.shiguPose=state.shiguPose||'idle';
-const AUDIO={drop:['drop1.wav','drop2.wav','drop3.wav'], powa:['powa1.wav','powa2.wav','powa3.wav'], bubble:['bubble1.wav','bubble2.wav'], timer:['timer.wav'], ret:['return.wav'], arrival:['arrival.wav']}; const audioCache={}; Object.values(AUDIO).flat().forEach(f=>{const a=new Audio('../'+f); a.preload='auto'; audioCache[f]=a;});
+const AUDIO={drop:['drop1.wav','drop2.wav','drop3.wav'], powa:['powa1.wav','powa2.wav','powa3.wav'], bubble:['bubble1.wav','bubble2.wav'], timer:['timer.wav'], ret:['return.wav'], arrival:['arrival.wav']}; const audioCache={}; Object.values(AUDIO).flat().forEach(f=>{const a=new Audio(f); a.preload='auto'; audioCache[f]=a;});
 function save(){try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){alert('保存できませんでした。ストレージ容量やブラウザの設定を確認してな。')}}
 function pick(arr){return arr[Math.floor(Math.random()*arr.length)]}
 function play(kind){if(!state.sound||state.volume<=0)return; const file=pick(AUDIO[kind]||AUDIO.drop); const a=audioCache[file]; a.pause(); a.currentTime=0; a.volume=state.volume; a.play().catch(()=>{})}
